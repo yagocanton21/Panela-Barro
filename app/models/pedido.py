@@ -1,6 +1,7 @@
 from app.database import get_connection
 import psycopg2.extras
 
+# Inserir pedido
 def inserir(comanda_id, produto_id, quantidade, valor_pago):
     conn = get_connection()
     cursor = conn.cursor()
@@ -15,7 +16,8 @@ def inserir(comanda_id, produto_id, quantidade, valor_pago):
         cursor.close()
         conn.close()
 
-def buscar_extrato_por_cartao(numero_cartao):
+# Buscar extrato por cartão
+def buscar_extrato_por_comanda(numero_comanda):
     conn = get_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     query = """
@@ -23,25 +25,26 @@ def buscar_extrato_por_cartao(numero_cartao):
         FROM pedidos ped
         JOIN produtos p ON ped.produto_id = p.id
         JOIN comandas c ON ped.comanda_id = c.id
-        WHERE c.numero_cartao = %s AND c.status = 'aberta'
+        WHERE c.numero_comanda = %s AND c.status = 'aberta'
     """
-    cursor.execute(query, (numero_cartao,))
+    cursor.execute(query, (numero_comanda,))
     itens = cursor.fetchall()
     cursor.close()
     conn.close()
     return itens
 
-def calcular_total_comanda(numero_cartao):
+# Calcular total da comanda
+def calcular_total_comanda(numero_comanda):
     conn = get_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
     query = """
         SELECT c.id, SUM(p.valor_pago) as total_consumo
         FROM comandas c
         LEFT JOIN pedidos p ON c.id = p.comanda_id
-        WHERE c.numero_cartao = %s AND c.status = 'aberta'
+        WHERE c.numero_comanda = %s AND c.status = 'aberta'
         GROUP BY c.id
     """
-    cursor.execute(query, (numero_cartao,))
+    cursor.execute(query, (numero_comanda,))
     resultado = cursor.fetchone()
     cursor.close()
     conn.close()

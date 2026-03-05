@@ -1,7 +1,7 @@
 from app.database import get_connection
 import psycopg2.extras
 
-# 1. Função para buscar todos os produtos
+# Função para buscar todos os produtos
 def listar_todos():
     conn = get_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -11,7 +11,7 @@ def listar_todos():
     conn.close()
     return produtos
 
-# 2. Função para buscar apenas um produto por ID
+# Função para buscar apenas um produto por ID
 def buscar_por_id(id):
     conn = get_connection()
     cursor = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
@@ -21,7 +21,7 @@ def buscar_por_id(id):
     conn.close()
     return produto
 
-# 3. Função para inserir um novo produto
+# Função para inserir um novo produto
 def inserir(nome, preco_base, categoria, unidade_medida):
     conn = get_connection()
     cursor = conn.cursor()
@@ -38,7 +38,7 @@ def inserir(nome, preco_base, categoria, unidade_medida):
         cursor.close()
         conn.close()
 
-# 4. Função para deletar um produto
+# Função para deletar um produto
 def deletar(id):
     conn = get_connection()
     cursor = conn.cursor()

@@ -10,7 +10,7 @@ CREATE TABLE produtos (
 -- 2. Tabela de Comandas (O cartão físico)
 CREATE TABLE comandas (
     id SERIAL PRIMARY KEY,
-    numero_cartao INTEGER UNIQUE NOT NULL,
+    numero_comanda INTEGER UNIQUE NOT NULL,
     aberta_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fechada_em TIMESTAMP,
     total DECIMAL(10, 2) DEFAULT 0.00,
